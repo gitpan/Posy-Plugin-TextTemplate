@@ -1,6 +1,13 @@
 Revision history for Posy-Plugin-TextTemplate
 =============================================
 
+0.41 Sun 06 February 2005
+-------------------------
+
+  * (6 Feb 2005) removed Makefile.PL
+
+  * (6 Feb 2005) added INSTALL docs
+
 0.40 Sat 15 January 2005
 ------------------------
 
