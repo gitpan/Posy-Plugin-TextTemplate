@@ -1,0 +1,72 @@
+
+==== NAME ====
+
+Posy::Plugin::TextTemplate - Posy plugin for interpolating with
+Text::Template
+
+
+==== VERSION ====
+
+This describes version ``0.40'' of Posy::Plugin::TextTemplate.
+
+
+==== DESCRIPTION ====
+
+This overrides Posy's simple interpolate() method, by using the
+Text::Template module. This is *not* compatible with core Posy style
+interpolation.
+
+Note that, if you want access to any of posy's methods inside a template,
+the Posy object should be available through the variable "$Posy".
+
+
+==   Configuration   ==
+
+This expects configuration settings in the $self->{config} hash, which, in
+the default Posy setup, can be defined in the main "config" file in the data
+directory.
+
+``tt_recurse_into_entry''
+Do you want me to recursively interpolate into the entry $title and $body?
+Consider carefully before turning this on, since if anyone other than you
+has the ability to post entries, there is a chance of foolishness or malice,
+exposing variables and calling actions/subroutines you might not want
+called. (0 = No, 1 = Yes)
+
+``tt_left_delim'' ``tt_right_delim''
+The delimiters to use for Text::Template; for the sake of speed, it is best
+not to use the original '{' '}' delimiters. (default: tt_left_delim='[==',
+tt_right_delim='==]')
+
+``tt_entry_left_delim'' ``tt_entry_right_delim''
+The delimiters to use for Text::Template inside an entry (if
+tt_recurse_into_entry is true) (default: tt_entry_left_delim='<?perl'
+tt_entry_right_delim='perl?>')
+
+I used these defaults because they look like XML directives, and for
+compatibility with teperl.
+
+
+==== REQUIRES ====
+
+    Posy
+    Posy::Core
+    Text::Template
+
+    Test::More
+
+
+==== AUTHOR ====
+
+    Kathryn Andersen (RUBYKAT)
+    perlkat AT katspace dot com
+    http://www.katspace.com
+
+
+==== COPYRIGHT AND LICENCE ====
+
+Copyright (c) 2004-2005 by Kathryn Andersen
+
+This program is free software; you can redistribute it and/or modify it
+under the same terms as Perl itself.
+

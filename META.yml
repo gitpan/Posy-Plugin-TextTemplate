@@ -1,0 +1,17 @@
+--- #YAML:1.0
+name: Posy-Plugin-TextTemplate
+version: 0.40
+author:
+  - Kathryn Andersen
+abstract: Posy plugin for interpolating with Text::Template
+license: perl
+requires:
+  Posy: 0.4
+  Text::Template: 1.44
+build_requires:
+  Test::More: 0
+provides:
+  Posy::Plugin::TextTemplate:
+    file: lib/Posy/Plugin/TextTemplate.pm
+    version: 0.40
+generated_by: Module::Build version 0.2607
