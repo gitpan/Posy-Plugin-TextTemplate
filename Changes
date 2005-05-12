@@ -1,6 +1,15 @@
 Revision history for Posy-Plugin-TextTemplate
 =============================================
 
+0.42 Thu 12 May 2005
+--------------------
+
+  * (12 May 2005) update Posy version
+
+  * (12 May 2005) add Makefile.PL
+
+  * (12 May 2005) "error" template now "default"
+
 0.41 Sun 06 February 2005
 -------------------------
 
