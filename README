@@ -7,7 +7,7 @@ Text::Template.
 
 ==== VERSION ====
 
-This describes version ``0.42'' of Posy::Plugin::TextTemplate.
+This describes version ``0.4201'' of Posy::Plugin::TextTemplate.
 
 
 ==== DESCRIPTION ====
@@ -105,15 +105,10 @@ Download the *.tar.gz file and untar it in a suitable directory.
 This will install the files underneath /home/fred/perl.
 
 You will then need to make sure that you alter the PERL5LIB variable to find
-the modules, and the PATH variable to find the scripts (posy_one,
-posy_static).
+the modules.
 
-Therefore you will need to change: your path, to include
-/home/fred/perl/script (where the script will be)
-
-        PATH=/home/fred/perl/script:${PATH}
-
-the PERL5LIB variable to add /home/fred/perl/lib
+Therefore you will need to change the PERL5LIB variable to add
+/home/fred/perl/lib
 
         PERL5LIB=/home/fred/perl/lib:${PERL5LIB}
 

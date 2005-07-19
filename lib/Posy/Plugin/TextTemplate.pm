@@ -7,11 +7,11 @@ Posy::Plugin::TextTemplate - Posy plugin for interpolating with Text::Template.
 
 =head1 VERSION
 
-This describes version B<0.42> of Posy::Plugin::TextTemplate.
+This describes version B<0.4201> of Posy::Plugin::TextTemplate.
 
 =cut
 
-our $VERSION = '0.42';
+our $VERSION = '0.4201';
 
 =head1 SYNOPSIS
 
@@ -140,7 +140,9 @@ sub interpolate {
     my $template = shift;
     my $vars_ref = shift;
 
-    warn "$chunk template empty" if (!$template);
+    # if the template is empty, return empty
+    return '' if (!$template);
+
     # recurse into entry if we are processing an entry
     if ($chunk eq 'entry'
 	and $self->{config}->{tt_recurse_into_entry})
@@ -249,14 +251,9 @@ Download the *.tar.gz file and untar it in a suitable directory.
 This will install the files underneath /home/fred/perl.
 
 You will then need to make sure that you alter the PERL5LIB variable to
-find the modules, and the PATH variable to find the scripts (posy_one,
-posy_static).
+find the modules.
 
-Therefore you will need to change:
-your path, to include /home/fred/perl/script (where the script will be)
-
-	PATH=/home/fred/perl/script:${PATH}
-
+Therefore you will need to change
 the PERL5LIB variable to add /home/fred/perl/lib
 
 	PERL5LIB=/home/fred/perl/lib:${PERL5LIB}

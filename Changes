@@ -1,6 +1,12 @@
 Revision history for Posy-Plugin-TextTemplate
 =============================================
 
+0.4201 Tue 19 July 2005
+-----------------------
+
+  * (19 Jul 2005) little fixes
+  	Removed a stupid warning, and fixed a documentation error.
+
 0.42 Thu 12 May 2005
 --------------------
 
