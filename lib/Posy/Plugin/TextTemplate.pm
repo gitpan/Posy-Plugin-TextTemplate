@@ -7,11 +7,11 @@ Posy::Plugin::TextTemplate - Posy plugin for interpolating with Text::Template.
 
 =head1 VERSION
 
-This describes version B<0.4201> of Posy::Plugin::TextTemplate.
+This describes version B<0.43> of Posy::Plugin::TextTemplate.
 
 =cut
 
-our $VERSION = '0.4201';
+our $VERSION = '0.43';
 
 =head1 SYNOPSIS
 
@@ -101,6 +101,9 @@ sub init {
 		'<p><b>[==$entry_title==]</b><br />[==$entry_body==] <a href="[==$url==]/[==$path_cat_id==]/[==$path_basename==].[==$config_flavour==]">#</a></p>';
     $self->{templates}->{foot}->{default} = '</body></html>';
 
+    # set the cache to empty
+    $self->{_template_objs} = {}
+	if (!exists $self->{_template_objs});
 } # init
 
 =head1 Helper Methods
@@ -139,9 +142,6 @@ sub interpolate {
     my $chunk = shift;
     my $template = shift;
     my $vars_ref = shift;
-
-    # if the template is empty, return empty
-    return '' if (!$template);
 
     # recurse into entry if we are processing an entry
     if ($chunk eq 'entry'
@@ -182,15 +182,31 @@ sub interpolate {
 	    }
 	}
     }
+    # if the template is empty, return empty
+    return '' if (!$template);
+
     my $content = $template;
-    $self->debug(1, "template undefined") if (!defined $template);
-    my $obj = new Text::Template(
-				 TYPE=>'STRING',
-				 SOURCE => $content,
-				 DELIMITERS =>
-				 [$self->{config}->{tt_left_delim},
-				 $self->{config}->{tt_right_delim}],
-				);
+    # see if the template is already there and compiled
+    my $obj;
+    if (exists $self->{_template_objs}->{$chunk}->{$template}
+	and defined $self->{_template_objs}->{$chunk}->{$template})
+    {
+	$obj = $self->{_template_objs}->{$chunk}->{$template};
+    }
+    else
+    {
+	$obj = new Text::Template(
+				     TYPE=>'STRING',
+				     SOURCE => $content,
+				     DELIMITERS =>
+				     [$self->{config}->{tt_left_delim},
+				     $self->{config}->{tt_right_delim}],
+				    );
+	$obj->compile();
+	$self->{_template_objs}->{$chunk} = {}
+	if (!exists $self->{_template_objs}->{$chunk});
+	$self->{_template_objs}->{$chunk}->{$template} = $obj;
+    }
     $content = $obj->fill_in(HASH=>$vars_ref);
     return $content;
 } # interpolate

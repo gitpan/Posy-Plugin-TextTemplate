@@ -1,6 +1,13 @@
 Revision history for Posy-Plugin-TextTemplate
 =============================================
 
+0.43 Sat 23 July 2005
+---------------------
+
+  * (23 Jul 2005) efficiency
+  	Improved the efficiency of this for multiple entries by
+  caching compiled templates.
+
 0.4201 Tue 19 July 2005
 -----------------------
 
