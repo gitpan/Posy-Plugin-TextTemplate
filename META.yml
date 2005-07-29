@@ -1,6 +1,6 @@
 ---
 name: Posy-Plugin-TextTemplate
-version: 0.43
+version: 0.44
 author:
   - Kathryn Andersen
 abstract: Posy plugin for interpolating with Text::Template.
@@ -13,5 +13,5 @@ build_requires:
 provides:
   Posy::Plugin::TextTemplate:
     file: lib/Posy/Plugin/TextTemplate.pm
-    version: 0.43
+    version: 0.44
 generated_by: Module::Build version 0.2611

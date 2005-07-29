@@ -1,6 +1,14 @@
 Revision history for Posy-Plugin-TextTemplate
 =============================================
 
+0.44 Fri 29 July 2005
+---------------------
+
+  * (29 Jul 2005) added safe_backtick method
+  	Added a new method, to be called from within embedded perl,
+  which can be used to replace the unsafe and not-allowed backtick ``
+  to grab the output of an external program.
+
 0.43 Sat 23 July 2005
 ---------------------
 

@@ -7,11 +7,11 @@ Posy::Plugin::TextTemplate - Posy plugin for interpolating with Text::Template.
 
 =head1 VERSION
 
-This describes version B<0.43> of Posy::Plugin::TextTemplate.
+This describes version B<0.44> of Posy::Plugin::TextTemplate.
 
 =cut
 
-our $VERSION = '0.43';
+our $VERSION = '0.44';
 
 =head1 SYNOPSIS
 
@@ -27,6 +27,12 @@ This is I<not> compatible with core Posy style interpolation.
 
 Note that, if you want access to any of posy's methods inside a template,
 the Posy object should be available through the variable "$Posy".
+
+This also supplies a helper method, 'safe_backtick', which can be used
+to safely call another program and return the results, rather than using
+a backtick `` which is insecure (and explicitly not allowed by this
+module).  Note that this will probably only work in a UNIX-like
+environment.
 
 =head2 Configuration
 
@@ -210,6 +216,59 @@ sub interpolate {
     $content = $obj->fill_in(HASH=>$vars_ref);
     return $content;
 } # interpolate
+
+=head2 safe_backtick
+
+<?perl $OUT = $Posy->safe_backtick('myprog', @args); perl?>
+
+Return the results of a program, without risking evil shell calls.
+This requires that the program and the arguments to that program
+be given separately.
+
+=cut
+
+sub safe_backtick {
+    my $self = shift;
+    my @prog_and_args = @_;
+    my $progname = $prog_and_args[0];
+
+    # if they didn't give us anything, return
+    if (!$progname)
+    {
+	return '';
+    }
+    # call the program
+    # do a fork and exec with an open;
+    # this should preserve the environment and also be safe
+    my $result = '';
+    my $fh;
+    my $pid = open($fh, "-|");
+    if ($pid) # parent
+    {
+	{
+	    # slurp up the result all at once
+	    local $/ = undef;
+	    $result = <$fh>;
+	}
+	close($fh) || warn "$progname program script exited $?";
+    }
+    else # child
+    {
+	# figure out the working directory of the current file
+	$self->{path}->{cat_id} =~ m#([-_.\/\w]+)#;
+	my $path = $1; # untaint
+	$path = '' if (!$self->{path}->{cat_id});
+	my $fulldir = File::Spec->catdir($self->{data_dir}, $path);
+	chdir $fulldir;
+	# call the program
+	# force exec to use an indirect object,
+	# so that evil shell stuff will die, even
+	# for a program with no arguments
+	exec { $progname } @prog_and_args or die "$progname failed: $!\n";
+	# NOTREACHED
+    }
+    return $result;
+} # safe_backtick
 
 =head1 INSTALLATION
 
